@@ -52,6 +52,22 @@ Node D is connected to the monitoring dashboard in the current implementation, p
 
 The LoRa communication network itself does not depend on a dedicated central gateway.
 
+```mermaid
+flowchart TD
+    A["Node A<br/>ESP32 + LoRa + MPU6050"]
+    B["Node B<br/>ESP32 + LoRa"]
+    C["Node C<br/>ESP32 + LoRa"]
+    D["Node D<br/>ESP32 + LoRa"]
+
+    A <--> B
+    B <--> C
+    C <--> D
+    A <--> C
+    B <--> D
+
+    D --> Dashboard["Monitoring Dashboard"]
+```
+
 ---
 
 ## Hardware Components
