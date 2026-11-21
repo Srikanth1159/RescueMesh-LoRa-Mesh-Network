@@ -79,13 +79,14 @@ RM_SK_7264|A-33|A|3|SOS:Rescue needed
 
 ---
 ```
-Packet Fields
-Field	          Description
-NETWORK_ID	    Identifies the RescueMesh network
-MESSAGE_ID	    Unique message identifier
-ORIGIN	        Original transmitting node
-TTL	            Remaining forwarding limit
-PAYLOAD       	Message or emergency information
+## Packet Fields
+| Field	| Description |
+|---|---|
+| NETWORK_ID | Identifies the RescueMesh network |
+| MESSAGE_ID | Unique message identifier |
+| ORIGIN | Original transmitting node |
+| TTL | Remaining forwarding limit |
+| PAYLOAD | Message or emergency information |
 
 Nodes verify the network ID and check for duplicate messages before processing and forwarding packets.
 
