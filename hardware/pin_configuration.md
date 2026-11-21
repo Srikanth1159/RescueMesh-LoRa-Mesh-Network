@@ -1,116 +1,195 @@
-# RescueMesh Hardware Pin Configuration
+# RescueMesh – Hardware Pin Configuration
 
-## 1. Overview
-
-RescueMesh uses ESP32 microcontrollers interfaced with LoRa SX1278 communication modules and peripheral components.
-
-The GPIO configuration varies between nodes depending on their hardware connections and functionalities.
-
-This document describes the hardware pin configuration used in the RescueMesh prototype.
+This document describes the GPIO pin assignments, hardware connections, and communication configuration used by all RescueMesh ESP32-LoRa nodes.
 
 ---
 
-## 2. Node A Configuration
+## Node A – Sensor and Emergency Node
 
-### ESP32 – LoRa SX1278
+### LoRa SX1278 Module
 
-| LoRa Module Pin | ESP32 GPIO |
-|---|---|
-| NSS / SS | GPIO 5 |
-| RESET | GPIO 14 |
-| DIO0 | GPIO 26 |
-| SCK | GPIO 18 |
-| MISO | GPIO 19 |
-| MOSI | GPIO 23 |
+| LoRa Pin | ESP32 GPIO |
+|-----------|------------|
+| NSS / CS  | GPIO 5 |
+| RESET     | GPIO 14 |
+| DIO0      | GPIO 26 |
+| SCK       | GPIO 18 |
+| MISO      | GPIO 19 |
+| MOSI      | GPIO 23 |
+| VCC       | 3.3V |
+| GND       | GND |
 
-### MPU6050 – I2C Interface
+### MPU6050 Accelerometer and Gyroscope
 
 | MPU6050 Pin | ESP32 GPIO |
-|---|---|
-| SDA | GPIO 21 |
-| SCL | GPIO 22 |
-| Address | 0x68 |
+|-------------|------------|
+| SDA         | GPIO 21 |
+| SCL         | GPIO 22 |
+| VCC         | 3.3V |
+| GND         | GND |
 
-### SOS Button and LEDs
+- I2C Address: `0x68`
+
+### Emergency SOS Button
 
 | Component | ESP32 GPIO |
-|---|---|
+|-----------|------------|
 | SOS Button | GPIO 27 |
+
+- Configured using `INPUT_PULLUP`.
+- Button connects GPIO 27 to GND when pressed.
+
+### Status LEDs
+
+| LED | ESP32 GPIO |
+|-----|------------|
 | Green LED | GPIO 32 |
 | Yellow LED | GPIO 33 |
 | Red LED | GPIO 25 |
 
 ---
 
-## 3. Node B Configuration
+## Node B – Relay and Emergency Node
 
-### SOS Button and LEDs
+### LoRa SX1278 Module
+
+| LoRa Pin | ESP32 GPIO |
+|-----------|------------|
+| NSS / CS  | GPIO 5 |
+| RESET     | GPIO 14 |
+| DIO0      | GPIO 26 |
+| SCK       | GPIO 18 |
+| MISO      | GPIO 19 |
+| MOSI      | GPIO 23 |
+| VCC       | 3.3V |
+| GND       | GND |
+
+### Emergency SOS Button
 
 | Component | ESP32 GPIO |
-|---|---|
+|-----------|------------|
 | SOS Button | GPIO 27 |
+
+- Configured using `INPUT_PULLUP`.
+- Button connects GPIO 27 to GND when pressed.
+
+### Status LEDs
+
+| LED | ESP32 GPIO |
+|-----|------------|
 | Green LED | GPIO 32 |
 | Yellow LED | GPIO 33 |
 | Red LED | GPIO 25 |
 
-The LoRa pin configuration should be verified against the Node B firmware.
-
 ---
 
-## 4. Node C Configuration
+## Node C – Kepler Node
 
-### ESP32 – LoRa SX1278
+### LoRa SX1278 Module
 
-| LoRa Module Pin | ESP32 GPIO |
-|---|---|
-| NSS / SS | GPIO 13 |
-| RESET | GPIO 14 |
-| DIO0 | GPIO 26 |
-| SCK | GPIO 32 |
-| MISO | GPIO 19 |
-| MOSI | GPIO 23 |
+| LoRa Pin | ESP32 GPIO |
+|-----------|------------|
+| NSS / CS  | GPIO 13 |
+| RESET     | GPIO 14 |
+| DIO0      | GPIO 26 |
+| SCK       | GPIO 32 |
+| MISO      | GPIO 19 |
+| MOSI      | GPIO 23 |
+| VCC       | 3.3V |
+| GND       | GND |
 
-### Additional Components
+### Emergency SOS Button
 
 | Component | ESP32 GPIO |
-|---|---|
+|-----------|------------|
 | SOS Button | GPIO 27 |
-| LED | GPIO 25 |
+
+- Configured using `INPUT_PULLUP`.
+- Button connects GPIO 27 to GND when pressed.
+
+### SOS Indicator LED
+
+| Component | ESP32 GPIO |
+|-----------|------------|
+| SOS LED | GPIO 25 |
+
+- Blinks during SOS transmission.
+- Blinks when an SOS message is received.
+- Blink interval: 250 ms.
+- Blink duration: 5 seconds.
 
 ---
 
-## 5. Node D Configuration
+## Node D – Dashboard Gateway
 
-Node D is connected to the monitoring dashboard in the current implementation.
+### LoRa SX1278 Module
 
-Refer to the Node D firmware for the specific GPIO assignments and hardware connections.
+| LoRa Pin | ESP32 GPIO |
+|-----------|------------|
+| NSS / CS  | GPIO 5 |
+| RESET     | GPIO 14 |
+| DIO0      | GPIO 26 |
+| SCK       | GPIO 18 |
+| MISO      | GPIO 19 |
+| MOSI      | GPIO 23 |
+| VCC       | 3.3V |
+| GND       | GND |
 
----
+### SOS Hardware
 
-## 6. LoRa Communication Configuration
+| Component | ESP32 GPIO |
+|-----------|------------|
+| SOS Button | GPIO 27 |
+| SOS LED | GPIO 25 |
 
-All LoRa modules must use compatible communication parameters to exchange packets.
+### Wi-Fi Configuration
 
 | Parameter | Value |
-|---|---|
+|-----------|-------|
+| Wi-Fi Mode | Access Point |
+| SSID | `RescueMesh-D` |
+| Password | `RescueMesh7264` |
+| Dashboard IP | `192.168.4.1` |
+
+### Node D Functionality
+
+Node D acts as the gateway between the LoRa mesh network and the web-based monitoring dashboard.
+
+It receives messages from the LoRa network and provides a Wi-Fi access point for dashboard connectivity and emergency alert visualization.
+
+---
+
+## Common LoRa Communication Configuration
+
+| Parameter | Value |
+|-----------|-------|
 | Frequency | 433 MHz |
-| Spreading Factor | 7 |
+| Spreading Factor | SF7 |
 | Bandwidth | 125 kHz |
 | Coding Rate | 4/5 |
-| Sync Word | 0x12 |
+| Sync Word | `0x12` |
 | CRC | Enabled |
+| Network ID | `RM_SK_7264` |
 
 ---
 
-## 7. Hardware Notes
+## Hardware Notes
 
-- Ensure the LoRa module and ESP32 share a common ground.
-- Verify the SPI connections before powering the modules.
-- Use the appropriate power supply for the ESP32 and LoRa module.
-- Connect the LoRa antenna before transmitting.
-- Verify GPIO assignments against the corresponding firmware.
-- Avoid short circuits during hardware assembly.
+- ESP32 GPIO pins operate at 3.3V logic levels.
+- SX1278 LoRa modules require a suitable 3.3V power supply.
+- Use an appropriate 433 MHz antenna for the LoRa module.
+- LEDs should be connected through current-limiting resistors.
+- SOS buttons use the internal pull-up resistor.
+- GPIO assignments are specific to the firmware and physical wiring of each node.
+- Node C uses a different SPI pin configuration compared to Nodes A, B, and D.
 
 ---
 
-**RescueMesh – Node failure must not become communication failure.**
+## Node Summary
+
+| Node | LoRa | Sensors | SOS Button | Indicators | Main Function |
+|------|------|---------|------------|------------|---------------|
+| A | SX1278 | MPU6050 | GPIO 27 | 3 LEDs | Sensor and emergency detection |
+| B | SX1278 | None | GPIO 27 | 3 LEDs | Relay and emergency node |
+| C | SX1278 | None | GPIO 27 | 1 LED | Kepler emergency relay node |
+| D | SX1278 | None | GPIO 27 | 1 LED | Dashboard gateway |
