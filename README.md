@@ -107,11 +107,11 @@ Node A currently implements:
 
   
 ## Alert Indication
-LED	           Status
-Green	         Idle
-Yellow	       Vibration detected
-Red	High       impact detected
-Blinking Red	 SOS alert
+|LED|Status|
+|Green|Idle|
+|Yellow|Vibration detected|
+|Red	High|impact detected|
+|Blinking Red|SOS alert|
 
 
 ## Hardware Pin Configuration
@@ -156,19 +156,38 @@ CRC	               Enabled
 - SPI library
 
 ## Repository Structure
+
+```text
 RescueMesh-LoRa-Mesh-Network/
+│
 ├── firmware/
 │   ├── node_A/
 │   │   └── Node_A.ino
+│   │
 │   ├── node_B/
 │   │   └── Node_B.ino
+│   │
 │   ├── node_C/
 │   │   └── Node_C.ino
+│   │
 │   └── node_D/
 │       └── Node_D.ino
+│
 ├── documentation/
+│   ├── system_architecture.md
+│   └── communication_protocol.md
+│
 ├── hardware/
-└── README.md
+│   ├── pin_configuration.md
+│   └── hardware_components.md
+│
+├── images/
+│   ├── system_architecture.png
+│   ├── hardware_setup.jpg
+│   └── dashboard.png
+│
+├── README.md
+└── LICENSE
 
 
 ## Getting Started
@@ -179,7 +198,9 @@ Download and install the Arduino IDE.
 Install the ESP32 board package through the Arduino IDE Boards Manager.
 3. Install Required Libraries
 Install the following library:
+
 - LoRa by Sandeep Mistry
+
 The SPI and Wire libraries are included with the Arduino framework.
 4. Open Firmware
 Navigate to the firmware folder and open the .ino file corresponding to the node you want to program.
@@ -215,7 +236,7 @@ Further improvements are planned for network routing, recovery mechanisms, and n
 - Power optimization
 - Additional environmental sensors
 
-Project Team
+## Project Team
 Developed as a collaborative engineering project focused on resilient IoT communication and decentralized wireless networking.
 
-RescueMesh – Node failure must not become communication failure.
+**RescueMesh – Node failure must not become communication failure.**
