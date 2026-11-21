@@ -8,8 +8,6 @@ The protocol is designed to support decentralized communication, emergency messa
 
 Each transmitted packet contains network identification, message identification, source node information, a forwarding limit, and the message payload.
 
----
-
 ## 2. Packet Format
 
 RescueMesh uses the following packet structure:
@@ -20,19 +18,15 @@ NETWORK_ID|MESSAGE_ID|ORIGIN|TTL|PAYLOAD
 
 RM_SK_7264|A-33|A|3|SOS:Rescue needed
 
----
-
 ## 3. Packet Fields
 
 | Field | Description |
 |---|---|
 | NETWORK_ID | Identifies the RescueMesh network |
-| MESSAGE_ID | Unique identifier assigned to a message |
+| MESSAGE_ID | Identifies an individual message |
 | ORIGIN | Identifies the node that originally generated the message |
-| TTL | Maximum remaining forwarding limit |
+| TTL | Maximum forwarding limit |
 | PAYLOAD | Contains message data or emergency information |
-
----
 
 ## 4. Network Identification
 
@@ -44,8 +38,6 @@ Example:
 
 RM_SK_7264
 
----
-
 ## 5. Message Identification
 
 Each message contains a unique message identifier.
@@ -56,8 +48,6 @@ Example:
 
 A-33
 
----
-
 ## 6. Message Forwarding
 
 When a node receives a valid message, it processes the packet and determines whether forwarding is permitted.
@@ -66,19 +56,15 @@ Forwarding allows messages to travel beyond the direct communication range of th
 
 The receiving node decrements the TTL value before retransmitting the message.
 
----
-
 ## 7. Time-To-Live (TTL)
 
 TTL controls the maximum forwarding limit of a message.
 
 Each forwarding node decreases the TTL value.
 
-Messages are not forwarded when the forwarding limit has been reached.
+Messages are not forwarded when the forwarding limit is reached.
 
 This mechanism helps prevent unnecessary packet retransmissions.
-
----
 
 ## 8. Duplicate Message Filtering
 
@@ -92,8 +78,6 @@ When a packet is received:
 4. New packets are processed and may be forwarded.
 
 Duplicate filtering helps reduce unnecessary network traffic.
-
----
 
 ## 9. Emergency Messages
 
@@ -109,23 +93,17 @@ Example:
 
 RM_SK_7264|A-33|A|3|SOS:Rescue needed
 
----
-
 ## 10. Signal Strength Monitoring
 
 Received Signal Strength Indicator (RSSI) values are monitored to evaluate the received signal strength of LoRa packets.
 
 RSSI can be used to assess communication quality between nodes and assist in evaluating network performance.
 
----
-
 ## 11. Packet Error Checking
 
 LoRa packet CRC is enabled to detect corrupted packets during wireless transmission.
 
 Packets failing integrity checks are not treated as valid messages.
-
----
 
 ## 12. LoRa Configuration
 
@@ -137,8 +115,6 @@ Packets failing integrity checks are not treated as valid messages.
 | Coding Rate | 4/5 |
 | Sync Word | 0x12 |
 | CRC | Enabled |
-
----
 
 ## 13. Protocol Limitations
 
