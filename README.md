@@ -27,7 +27,7 @@ The system supports emergency SOS alerts, vibration detection, impact detection,
 - Duplicate message filtering
 - Manual SOS emergency button
 - Accelerometer-based vibration detection
-- High-impact detection
+- Threshold-based impact detection
 - LED-based alert indication
 - Signal strength (RSSI) monitoring
 - Packet CRC error checking
@@ -73,14 +73,18 @@ The LoRa communication network itself does not depend on a dedicated central gat
 Messages are transmitted using a structured packet format:
 
 ```text
-NETWORK_ID | MESSAGE_ID | ORIGIN | TTL | PAYLOAD
-
-RM_SK_7264|A-33|A|3|SOS:Rescue needed
-
----
+NETWORK_ID|MESSAGE_ID|ORIGIN|TTL|PAYLOAD
 ```
-## Packet Fields
-| Field	| Description |
+
+### Example Packet
+
+```text
+RM_SK_7264|A-33|A|3|SOS:Rescue needed
+```
+
+### Packet Fields
+
+| Field | Description |
 |---|---|
 | NETWORK_ID | Identifies the RescueMesh network |
 | MESSAGE_ID | Unique message identifier |
@@ -92,12 +96,16 @@ Nodes verify the network ID and check for duplicate messages before processing a
 
 The TTL value is decremented during forwarding to limit unnecessary retransmissions.
 
+---
+
 ## Node A Implementation
+
 Node A currently implements:
+
 - Manual SOS button
 - MPU6050-based acceleration monitoring
 - Vibration detection
-- High-impact detection
+- Threshold-based impact detection
 - LoRa transmission and reception
 - Multi-hop packet forwarding
 - Duplicate message filtering
@@ -105,55 +113,71 @@ Node A currently implements:
 - LED status indication
 - RSSI reporting
 
-  
-## Alert Indication
-|LED|Status|
-|Green|Idle|
-|Yellow|Vibration detected|
-|Red	High|impact detected|
-|Blinking Red|SOS alert|
+### Alert Indication
 
+| LED Indication | Status |
+|---|---|
+| Green | Idle |
+| Yellow | Vibration detected |
+| Red | High-impact detected |
+| Blinking Red | SOS alert |
+
+---
 
 ## Hardware Pin Configuration
-ESP32 – LoRa SX1278
-LoRa Pin	    ESP32 GPIO
-NSS / SS	    GPIO 5
-RESET	        GPIO 14
-DIO0	        GPIO 26
-SCK	          GPIO 18
-MISO	        GPIO 19
-MOSI	        GPIO 23
 
-## MPU6050 – I2C
-MPU6050 Pin	  ESP32 GPIO
-SDA	           GPIO 21
-SCL	           GPIO 22
-Address        	0x68
+### ESP32 – LoRa SX1278
 
-## SOS Button and LEDs
-Component   	ESP32 GPIO
-SOS Button	   GPIO 27
-Green LED	     GPIO 32
-Yellow LED	   GPIO 33
-Red LED	       GPIO 25
+| LoRa Pin | ESP32 GPIO |
+|---|---|
+| NSS / SS | GPIO 5 |
+| RESET | GPIO 14 |
+| DIO0 | GPIO 26 |
+| SCK | GPIO 18 |
+| MISO | GPIO 19 |
+| MOSI | GPIO 23 |
 
+### MPU6050 – I2C
+
+| MPU6050 Pin | ESP32 GPIO |
+|---|---|
+| SDA | GPIO 21 |
+| SCL | GPIO 22 |
+| Address | 0x68 |
+
+### SOS Button and LEDs
+
+| Component | ESP32 GPIO |
+|---|---|
+| SOS Button | GPIO 27 |
+| Green LED | GPIO 32 |
+| Yellow LED | GPIO 33 |
+| Red LED | GPIO 25 |
+
+---
 
 ## LoRa Configuration
-Parameter	          Value
-Frequency	         433 MHz
-Spreading Factor	    7
-Bandwidth	         125 kHz
-Coding Rate        	4/5
-Sync Word	          0x12
-CRC	               Enabled
 
+| Parameter | Value |
+|---|---|
+| Frequency | 433 MHz |
+| Spreading Factor | 7 |
+| Bandwidth | 125 kHz |
+| Coding Rate | 4/5 |
+| Sync Word | 0x12 |
+| CRC | Enabled |
+
+---
 
 ## Software Requirements
+
 - Arduino IDE
 - ESP32 Arduino Core
 - LoRa library by Sandeep Mistry
 - Wire library
 - SPI library
+
+---
 
 ## Repository Structure
 
@@ -188,28 +212,45 @@ RescueMesh-LoRa-Mesh-Network/
 │
 ├── README.md
 └── LICENSE
+```
 
+---
 
 ## Getting Started
 
-1. Install Arduino IDE
+### 1. Install Arduino IDE
+
 Download and install the Arduino IDE.
-2. Install ESP32 Board Support
+
+### 2. Install ESP32 Board Support
+
 Install the ESP32 board package through the Arduino IDE Boards Manager.
-3. Install Required Libraries
+
+### 3. Install Required Libraries
+
 Install the following library:
 
 - LoRa by Sandeep Mistry
 
 The SPI and Wire libraries are included with the Arduino framework.
-4. Open Firmware
-Navigate to the firmware folder and open the .ino file corresponding to the node you want to program.
-5. Configure Hardware
+
+### 4. Open Firmware
+
+Navigate to the `firmware` folder and open the `.ino` file corresponding to the node you want to program.
+
+### 5. Configure Hardware
+
 Connect the ESP32, LoRa module, sensors, LEDs, and SOS button according to the pin configuration.
-6. Upload Firmware
+
+### 6. Upload Firmware
+
 Select the appropriate ESP32 board and COM port, then upload the firmware.
-7. Test Communication
+
+### 7. Test Communication
+
 Power up the nodes and test message transmission, reception, relaying, and SOS alerts.
+
+---
 
 ## Project Status
 
@@ -219,7 +260,10 @@ Implemented features include node-to-node communication, message forwarding, dup
 
 Further improvements are planned for network routing, recovery mechanisms, and node monitoring.
 
+---
+
 ## Applications
+
 - Disaster response communication
 - Emergency alert systems
 - Remote monitoring
@@ -227,7 +271,10 @@ Further improvements are planned for network routing, recovery mechanisms, and n
 - Search and rescue operations
 - Temporary communication networks
 
+---
+
 ## Future Improvements
+
 - Dynamic route selection
 - Improved network recovery mechanisms
 - Extended node monitoring
@@ -236,7 +283,12 @@ Further improvements are planned for network routing, recovery mechanisms, and n
 - Power optimization
 - Additional environmental sensors
 
+---
+
 ## Project Team
+
 Developed as a collaborative engineering project focused on resilient IoT communication and decentralized wireless networking.
+
+---
 
 **RescueMesh – Node failure must not become communication failure.**
